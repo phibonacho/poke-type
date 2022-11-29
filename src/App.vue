@@ -14,6 +14,9 @@
       </div>
     </div>
   </main>
+  <footer class="footer__container">
+    <p class="text-sm text-center py-2 w-full text-blue-500">v{{ version }}</p>
+  </footer>
 </template>
 
 <script>
@@ -58,6 +61,9 @@ export default {
       return this.selected
           ? this.types[this.selected].effects.map(id => ({id, name: this.types[id].name}))
           : [];
+    },
+    version() {
+      return __APP_VERSION__
     }
   },
   methods: {
@@ -84,9 +90,22 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+#app {
+  @apply flex flex-col min-h-screen;
+}
 
 .main__container {
-  @apply flex flex-col justify-center items-center min-h-screen w-full;
+  @apply grow flex flex-col justify-center items-center w-full;
+}
+
+.footer__container {
+
 }
 
 </style>
