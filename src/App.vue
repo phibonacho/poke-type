@@ -1,26 +1,92 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <main class="main__container">
+    <div class="md:mx-auto">
+      <DropDown label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona un tipo"
+                @dropdown-selected="(val) => this.selected = val"></DropDown>
+      <div v-if="selected" class="mt-4 ">
+        <h2 class="mb-2">Super efficace su:</h2>
+        <ul class="p-4 rounded-md border border-blue-300">
+          <li v-bind:key="index" v-for="({name, id}, index) in effects" class="flex flex-row py-2 px-4">
+            <t-icon :name="id"/>
+            <span class="ml-2">{{ name }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DropDown from "@/components/Dropdown";
+import TIcon from "@/components/TIcon";
+import {getDocs, collection} from "firebase/firestore";
+import {db} from "@/firebase";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    DropDown,
+    TIcon
+  },
+  data() {
+    return {
+      types: {},
+      loaded: false,
+      selected: null
+    }
+  },
+  mounted() {
+    if (!this.loaded)
+      this.fetchTypes().then(data => {
+        this.types = data;
+        this.loaded = true;
+      })
+  },
+  computed: {
+    options() {
+      return Array.from(Object.keys(this.types))
+          .sort((a, b) => this.types[a].order - this.types[b].order)
+          .map((id) => {
+            const {name} = this.types[id];
+            return {
+              id,
+              name
+            }
+          });
+    },
+    effects() {
+      return this.selected
+          ? this.types[this.selected].effects.map(id => ({id, name: this.types[id].name}))
+          : [];
+    }
+  },
+  methods: {
+    async fetchTypes() {
+      let typesData = {};
+      const snapshot = await getDocs(collection(db, "types"));
+
+      snapshot.forEach((doc) => {
+        typesData[doc.id] = {
+          id: doc.id,
+          name: doc.data().name,
+          effects: doc.data().effects.map(({id}) => id),
+          order: doc.data().order
+        };
+      });
+
+      return typesData;
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main__container {
+  @apply flex flex-col justify-center items-center min-h-screen w-full;
 }
+
 </style>
