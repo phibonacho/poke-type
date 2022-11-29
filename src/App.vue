@@ -1,17 +1,9 @@
 <template>
   <main class="main__container">
-    <div class="md:mx-auto">
+    <div class="w-full">
       <DropDown label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona un tipo"
                 @dropdown-selected="(val) => this.selected = val"></DropDown>
-      <div v-if="selected" class="mt-4 ">
-        <h2 class="mb-2">Super efficace su:</h2>
-        <ul class="p-4 rounded-md border border-blue-300">
-          <li v-bind:key="index" v-for="({name, id}, index) in effects" class="flex flex-row py-2 px-4">
-            <t-icon :name="id"/>
-            <span class="ml-2">{{ name }}</span>
-          </li>
-        </ul>
-      </div>
+      <detail-section v-if="selected" title="Super efficace su" :items="effects"></detail-section>
     </div>
   </main>
   <footer class="footer__container">
@@ -21,15 +13,15 @@
 
 <script>
 import DropDown from "@/components/Dropdown";
-import TIcon from "@/components/TIcon";
 import {getDocs, collection} from "firebase/firestore";
 import {db} from "@/firebase";
+import DetailSection from "@/components/DetailSection";
 
 export default {
   name: 'App',
   components: {
     DropDown,
-    TIcon
+    DetailSection
   },
   data() {
     return {
@@ -101,7 +93,7 @@ export default {
 }
 
 .main__container {
-  @apply grow flex flex-col justify-center items-center w-full;
+  @apply px-4 md:px-0 grow flex flex-col justify-center items-center w-full md:max-w-screen-sm mx-auto;
 }
 
 .footer__container {

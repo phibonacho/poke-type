@@ -16,30 +16,37 @@
       <t-icon :name="icon"></t-icon>
       <span class="trigger__label">{{ selected }}</span>
     </div>
-    <ul class="list"
-        ref="list"
-        role="listbox"
-        tabindex="-1"
-        :id="name + '_list'"
-        @keyup.esc="closeMenu"
-        @keyup.up="moveUp"
-        @keyup.down="moveDown"
-        @blur="focusLost"
-        @keyup.space="selectActive"
-        @keyup.enter="selectActive">
-      <li
-          class="list__item"
-          :class="activeIndex === index && 'list__item--active'"
-          v-bind:key="id" v-for="({id, name}, index) in options"
-          @click="select(index)"
-          @hover="moveTo(index)"
-          role="option"
-          :aria-selected="selectedIndex===index">
-        <t-icon :name="id"></t-icon>
-        <span class="list__item__label">{{ name }}</span>
-      </li>
-    </ul>
+    <transition name="fade-up">
+      <div
+          v-if="expanded"
+          class="list"
+          ref="list"
+          role="listbox"
+          tabindex="-1"
+          :id="name + '_list'"
+          @keyup.esc="closeMenu"
+          @keyup.up="moveUp"
+          @keyup.down="moveDown"
+          @blur="focusLost"
+          @keyup.space="selectActive"
+          @keyup.enter="selectActive">
+        <div
+            class="list__item"
+            :class="activeIndex === index && 'list__item--active'"
+            v-bind:key="id" v-for="({id, name}, index) in options"
+            @click="select(index)"
+            @hover="moveTo(index)"
+            role="option"
+            :aria-selected="selectedIndex===index">
+          <t-icon :name="id"></t-icon>
+          <span class="list__item__label">{{ name }}</span>
+        </div>
+      </div>
+    </transition>
   </div>
+  <transition name="fade">
+    <div v-if="expanded" class="list__backdrop"></div>
+  </transition>
 </template>
 
 <script>
@@ -121,27 +128,25 @@ label {
 }
 
 .wrapper {
-  @apply md:relative mt-1;
+  @apply mt-1;
 }
 
 .trigger {
-  @apply p-4 rounded-md border border-blue-400 min-w-[240px] cursor-pointer flex flex-row;
+  @apply p-4 rounded-md border border-blue-400 w-full cursor-pointer flex flex-row;
 }
 
 .trigger__label {
   @apply ml-2;
 }
 
-.trigger[aria-expanded="true"] + .list {
-  @apply block;
-}
-
 .list {
-  @apply m-8 md:m-0 absolute hidden overflow-scroll md:h-fit inset-0 rounded-md md:inset-x-0 md:top-1/2 md:-translate-y-1/2 bg-white border border-blue-400 cursor-pointer;
+  @apply absolute overflow-scroll m-8 inset-0 rounded-md cursor-pointer z-20 focus:outline-0;
+  @apply grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4;
+  @apply md:max-w-screen-md md:mx-auto  md:m-0 md:h-fit  md:inset-x-0 md:top-1/2 md:-translate-y-1/2;
 }
 
 .list__item {
-  @apply px-4 py-2 border-b border-b-blue-100 last:border-b-0 flex flex-row items-center
+  @apply px-4 py-2 md:py-4 border-b border-b-blue-100 last:border-b-0 flex flex-row justify-center items-center bg-white border border-blue-300 rounded-md;
 }
 
 .list__item__label {
@@ -153,7 +158,33 @@ label {
 }
 
 .list:focus-visible .list__item--active {
-  @apply ring ring-inset ring-blue-400;
+  @apply ring ring-inset ring-blue-500;
 }
 
+.list__backdrop {
+  @apply absolute inset-0 bg-slate-800 bg-opacity-70;
+}
+
+/* animations: */
+
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: all 0.3s ease;
+
+}
+
+.fade-up-enter-from,
+.fade-up-leave-to {
+  @apply opacity-0 translate-y-[20px] md:-translate-y-[45%];
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
