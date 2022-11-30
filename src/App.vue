@@ -1,13 +1,15 @@
 <template>
-  <main class="main__container">
-    <div class="w-full">
-      <DropDown label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona un tipo"
-                @dropdown-selected="(val) => this.selected = val"></DropDown>
-      <detail-section v-if="selected" title="Super efficace su" :items="effects"></detail-section>
+  <main class="main__container bg-gradient-to-t from-slate-800 via-slate-800" :class="`to-${selected}`" ref="main_container">
+    <div class="w-full z-10 h-[300px] md:h-fit flex flex-col justify-center">
+      <DropDown label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona"
+                @dropdown-selected="onChange"></DropDown>
     </div>
+      <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
+      <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
+      <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto" :items="noeffects"></detail-section>
   </main>
   <footer class="footer__container">
-    <p class="text-sm text-center py-2 w-full text-blue-500">v{{ version }}</p>
+    <p class="text-sm text-center py-2 w-full text-white">v{{ version }}</p>
   </footer>
 </template>
 
@@ -27,7 +29,27 @@ export default {
     return {
       types: {},
       loaded: false,
-      selected: null
+      selected: null,
+      colors: {
+        'normal': '#A8A77A',
+        'fire': '#EE8130',
+        'water': '#6390F0',
+        'electric': '#F7D02C',
+        'grass': '#7AC74C',
+        'ice': '#96D9D6',
+        'fighting': '#C22E28',
+        'poison': '#A33EA1',
+        'ground': '#E2BF65',
+        'flying': '#A98FF3',
+        'psychic': '#F95587',
+        'bug': '#A6B91A',
+        'rock': '#B6A136',
+        'ghost': '#735797',
+        'dragon': '#6F35FC',
+        'dark': '#705746',
+        'steel': '#B7B7CE',
+        'fairy': '#D685AD'
+      }
     }
   },
   mounted() {
@@ -54,6 +76,16 @@ export default {
           ? this.types[this.selected].effects.map(id => ({id, name: this.types[id].name}))
           : [];
     },
+    uneffects() {
+      return this.selected
+          ? this.types[this.selected].uneffects.map(id => ({id, name: this.types[id].name}))
+          : [];
+    },
+    noeffects() {
+      return this.selected
+          ? this.types[this.selected].noeffects.map(id => ({id, name: this.types[id].name}))
+          : [];
+    },
     version() {
       return __APP_VERSION__
     }
@@ -68,11 +100,16 @@ export default {
           id: doc.id,
           name: doc.data().name,
           effects: doc.data().effects.map(({id}) => id),
+          uneffects: doc.data().uneffects.map(({id}) => id),
+          noeffects: doc.data().noeffects.map(({id}) => id),
           order: doc.data().order
         };
       });
 
       return typesData;
+    },
+    onChange(type) {
+      this.selected = type;
     }
   }
 }
@@ -88,16 +125,20 @@ export default {
   font-family: 'Inter', sans-serif;
 }
 
+body {
+
+}
+
 #app {
-  @apply flex flex-col min-h-screen;
+  @apply flex flex-col h-screen overflow-y-scroll;
 }
 
 .main__container {
-  @apply px-4 md:px-0 grow flex flex-col justify-center items-center w-full md:max-w-screen-sm mx-auto;
+  @apply px-4 pb-8 md:px-0 md:pt-16 grow flex flex-col items-center w-full md:max-w-screen-sm mx-auto;
 }
 
 .footer__container {
-
+  @apply bg-slate-800;
 }
 
 </style>

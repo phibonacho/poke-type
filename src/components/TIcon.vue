@@ -1,5 +1,5 @@
 <template>
-  <span class="type-icon" :class="name" aria-hidden="true"></span>
+  <span class="icon" :class="classes" aria-hidden="true"></span>
 </template>
 
 <script>
@@ -7,15 +7,43 @@
 export default {
   name: 't-icon',
   props: {
-    name: String
+    name: String,
+    size: Number
+  },
+  computed: {
+    classes() {
+      return [
+          this.size ? `icon-${this.size}x` : null,
+          this.name
+      ].join(' ');
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.type-icon {
-  @apply border-4 w-4 h-4 rounded-full bg-contain inline-block p-2;
+.icon {
+  @apply border-4 w-4 h-4 rounded-full inline-block p-2;
+  background-size: 80%;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.icon-2x {
+  @apply w-8 h-8;
+}
+
+.icon-3x {
+  @apply w-12 h-12;
+}
+
+.icon-4x {
+  @apply w-16 h-16;
+}
+
+.icon-5x {
+  @apply w-20 h-20;
 }
 
 .normal {

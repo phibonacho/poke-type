@@ -3,6 +3,7 @@
   <div :id="name + '_list_wrapper'" class="wrapper">
     <div
         class="trigger"
+        :class="`bg-${icon}`"
         ref="trigger"
         :id="name + '_trigger'"
         role="combobox"
@@ -13,7 +14,7 @@
         @click="openMenu"
         @keyup.enter="openMenu"
         @keyup.space="openMenu">
-      <t-icon :name="icon"></t-icon>
+      <t-icon :name="icon" size="3"></t-icon>
       <span class="trigger__label">{{ selected }}</span>
     </div>
     <transition name="fade-up">
@@ -124,7 +125,7 @@ export default {
 <style scoped>
 
 label {
-  @apply text-lg;
+  @apply text-lg text-center w-full block font-semibold text-white uppercase text-xs;
 }
 
 .wrapper {
@@ -132,7 +133,7 @@ label {
 }
 
 .trigger {
-  @apply p-4 rounded-md border border-blue-400 w-full cursor-pointer flex flex-row;
+  @apply uppercase font-semibold text-white text-xs p-4 rounded-md border-2 border-white w-1/2 md:w-1/4 aspect-square rounded-full mx-auto cursor-pointer flex flex-col items-center justify-center text-center;
 }
 
 .trigger__label {
@@ -140,7 +141,7 @@ label {
 }
 
 .list {
-  @apply absolute overflow-scroll m-8 inset-0 rounded-md cursor-pointer z-20 focus:outline-0;
+  @apply absolute p-8 inset-0 w-screen h-screen rounded-md cursor-pointer z-20 focus:outline-0;
   @apply grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4;
   @apply md:max-w-screen-md md:mx-auto  md:m-0 md:h-fit  md:inset-x-0 md:top-1/2 md:-translate-y-1/2;
 }
@@ -162,7 +163,7 @@ label {
 }
 
 .list__backdrop {
-  @apply absolute inset-0 bg-slate-800 bg-opacity-70;
+  @apply absolute w-screen h-screen inset-0 bg-slate-800 bg-opacity-70;
 }
 
 /* animations: */

@@ -35,11 +35,11 @@ export default {
 <style scoped>
 
 .section__wrapper {
-  @apply mt-4;
+  @apply mt-4 w-full;
 }
 
 .section__title {
-  @apply mb-2;
+  @apply mb-2 text-white uppercase;
 }
 
 .section__list {
