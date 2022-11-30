@@ -10,11 +10,12 @@
         aria-haspopup="listbox"
         :aria-expanded="expanded"
         :aria-controls="name + '--list'"
+        :aria-label="selected"
         tabindex="0"
         @click="openMenu"
         @keyup.enter="openMenu"
         @keyup.space="openMenu">
-      <t-icon :name="icon" size="3"></t-icon>
+      <t-icon :name="icon" size=3></t-icon>
       <span class="trigger__label">{{ selected }}</span>
     </div>
     <transition name="fade-up">

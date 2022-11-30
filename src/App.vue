@@ -7,6 +7,7 @@
       <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
       <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
       <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto" :items="noeffects"></detail-section>
+    <div v-if="offlineReady">App ready to work offline!</div>
   </main>
   <footer class="footer__container">
     <p class="text-sm text-center py-2 w-full text-white">v{{ version }}</p>
@@ -18,9 +19,18 @@ import DropDown from "@/components/Dropdown";
 import {getDocs, collection} from "firebase/firestore";
 import {db} from "@/firebase";
 import DetailSection from "@/components/DetailSection";
+import {useRegisterSW} from "virtual:pwa-register/vue";
 
 export default {
   name: 'App',
+  setup() {
+    const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
+    const close = async () => {
+      offlineReady.value = false;
+      needRefresh.value = false;
+    };
+    return { offlineReady, needRefresh, updateServiceWorker, close };
+  },
   components: {
     DropDown,
     DetailSection
