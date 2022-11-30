@@ -7,7 +7,6 @@
       <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
       <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
       <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto" :items="noeffects"></detail-section>
-    <div v-if="offlineReady">App ready to work offline!</div>
   </main>
   <footer class="footer__container">
     <p class="text-sm text-center py-2 w-full text-white">v{{ version }}</p>
