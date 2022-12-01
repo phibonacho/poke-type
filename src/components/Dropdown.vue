@@ -18,33 +18,35 @@
       <t-icon :name="icon" size=3></t-icon>
       <span class="trigger__label">{{ selected }}</span>
     </div>
-    <transition name="fade-up">
-      <div
-          v-if="expanded"
-          class="list"
-          ref="list"
-          role="listbox"
-          tabindex="-1"
-          :id="name + '_list'"
-          @keyup.esc="closeMenu"
-          @keyup.up="moveUp"
-          @keyup.down="moveDown"
-          @blur="focusLost"
-          @keyup.space="selectActive"
-          @keyup.enter="selectActive">
-        <div
-            class="list__item"
-            :class="activeIndex === index && 'list__item--active'"
-            v-bind:key="id" v-for="({id, name}, index) in options"
-            @click="select(index)"
-            @hover="moveTo(index)"
-            role="option"
-            :aria-selected="selectedIndex===index">
-          <t-icon :name="id"></t-icon>
-          <span class="list__item__label">{{ name }}</span>
-        </div>
-      </div>
-    </transition>
+    <div v-if="expanded" class="list__container">
+      <transition name="fade-up" appear>
+        <ul
+            v-if="expanded"
+            class="list"
+            ref="list"
+            role="listbox"
+            tabindex="-1"
+            :id="name + '_list'"
+            @keyup.esc="closeMenu"
+            @keyup.up="moveUp"
+            @keyup.down="moveDown"
+            @blur="focusLost"
+            @keyup.space="selectActive"
+            @keyup.enter="selectActive">
+          <li
+              class="list__item"
+              :class="activeIndex === index && 'list__item--active'"
+              v-bind:key="id" v-for="({id, name}, index) in options"
+              @click="select(index)"
+              @hover="moveTo(index)"
+              role="option"
+              :aria-selected="selectedIndex===index">
+            <t-icon :name="id"></t-icon>
+            <span class="list__item__label">{{ name }}</span>
+          </li>
+        </ul>
+      </transition>
+    </div>
   </div>
   <transition name="fade">
     <div v-if="expanded" class="list__backdrop"></div>
@@ -141,14 +143,19 @@ label {
   @apply ml-2;
 }
 
+.list__container {
+  @apply absolute inset-0 w-screen h-screen z-20 flex flex-col justify-center items-center;
+}
+
 .list {
-  @apply absolute p-8 inset-0 w-screen h-screen rounded-md cursor-pointer z-20 focus:outline-0;
+  height: calc(100% - 40px);
+  @apply p-8 cursor-pointer focus:outline-0 md:h-fit;
   @apply grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4;
-  @apply md:max-w-screen-md md:mx-auto  md:m-0 md:h-fit  md:inset-x-0 md:top-1/2 md:-translate-y-1/2;
+  @apply md:max-w-screen-md md:mx-auto md:m-0 md:h-fit;
 }
 
 .list__item {
-  @apply px-4 py-2 md:py-4 border-b border-b-blue-100 last:border-b-0 flex flex-row justify-center items-center bg-white border border-blue-300 rounded-md;
+  @apply py-3 px-5 border-b border-b-blue-100 last:border-b-0 flex flex-row items-center bg-white border border-blue-300 rounded-md;
 }
 
 .list__item__label {
@@ -171,13 +178,13 @@ label {
 
 .fade-up-enter-active,
 .fade-up-leave-active {
-  transition: all 0.3s ease;
+  transition: all .3s ease;
 
 }
 
 .fade-up-enter-from,
 .fade-up-leave-to {
-  @apply opacity-0 translate-y-[20px] md:-translate-y-[45%];
+  @apply opacity-0 translate-y-[20px];
 }
 
 .fade-enter-active,

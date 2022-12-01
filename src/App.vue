@@ -135,11 +135,11 @@ export default {
 }
 
 body {
-
+  @apply bg-slate-800;
 }
 
 #app {
-  @apply flex flex-col h-screen overflow-y-scroll;
+  @apply flex flex-col min-h-screen overflow-y-scroll;
 }
 
 .main__container {
