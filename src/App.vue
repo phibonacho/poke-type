@@ -1,16 +1,27 @@
 <template>
-  <main class="main__container bg-gradient-to-t from-slate-800 via-slate-800" :class="`to-${selected}`" ref="main_container">
+  <main class="main__container bg-gradient-to-t from-slate-800 via-slate-800" :class="`to-${selected}`"
+        ref="main_container">
     <div class="w-full z-10 h-[300px] md:h-fit flex flex-col justify-center">
       <DropDown label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona"
                 @dropdown-selected="onChange"></DropDown>
     </div>
-      <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
-      <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
-      <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto" :items="noeffects"></detail-section>
+    <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
+    <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
+    <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto" :items="noeffects"></detail-section>
   </main>
   <footer class="footer__container">
     <p class="text-sm text-center py-2 w-full text-white">v{{ version }}</p>
   </footer>
+  <div role="alert"
+       v-if="needRefresh"
+       class="fixed inset-x-2 bottom-2 bg-blue-200 px-4 py-3 text-xs text-blue-600 border border-blue-400 rounded-md">
+    <div class="flex flex-row justify-around">
+      <p>
+        Una nuova versione è disponibile!
+      </p>
+      <button class="font-semibold" @click="updateServiceWorker()">INSTALLA</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -23,12 +34,12 @@ import {useRegisterSW} from "virtual:pwa-register/vue";
 export default {
   name: 'App',
   setup() {
-    const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
+    const {offlineReady, needRefresh, updateServiceWorker} = useRegisterSW();
     const close = async () => {
       offlineReady.value = false;
       needRefresh.value = false;
     };
-    return { offlineReady, needRefresh, updateServiceWorker, close };
+    return {offlineReady, needRefresh, updateServiceWorker, close};
   },
   components: {
     DropDown,
