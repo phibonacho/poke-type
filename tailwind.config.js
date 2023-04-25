@@ -4,7 +4,7 @@ module.exports = {
     content: ["src/**.vue", "src/components/*.vue"],
     safelist: [
         {
-            pattern: /border-.+/
+            pattern: /border-(normal|fire|water|electric|grass|ice|fighting|poison|ground|flying|psychic|bug|rock|ghost|dragon|dark|steel|fairy)/
         },
     ],
     theme: {
