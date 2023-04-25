@@ -1,47 +1,87 @@
-/** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
 module.exports = {
     content: ["src/**.vue", "src/components/*.vue"],
     safelist: [
-        'to-normal',
-        'to-fire',
-        'to-water',
-        'to-electric',
-        'to-grass',
-        'to-ice',
-        'to-fighting',
-        'to-poison',
-        'to-ground',
-        'to-flying',
-        'to-psychic',
-        'to-bug',
-        'to-rock',
-        'to-ghost',
-        'to-dragon',
-        'to-dark',
-        'to-steel',
-        'to-fairy'
+        {
+            pattern: /border-.+/
+        },
     ],
     theme: {
         extend: {
             colors: {
-                'normal': '#A8A77A',
-                'fire': '#EE8130',
-                'water': '#6390F0',
-                'electric': '#F7D02C',
-                'grass': '#7AC74C',
-                'ice': '#96D9D6',
-                'fighting': '#C22E28',
-                'poison': '#A33EA1',
-                'ground': '#E2BF65',
-                'flying': '#A98FF3',
-                'psychic': '#F95587',
-                'bug': '#A6B91A',
-                'rock': '#B6A136',
-                'ghost': '#735797',
-                'dragon': '#6F35FC',
-                'dark': '#705746',
-                'steel': '#B7B7CE',
-                'fairy': '#D685AD'
+                'normal': {
+                    DEFAULT: '#A8A77A',
+                    dark: colors.stone["600"]
+                },
+                'fire': {
+                    DEFAULT: '#EE8130',
+                    dark: colors.red["700"]
+                },
+                'water': {
+                    DEFAULT: '#6390F0',
+                    dark: colors.blue["700"]
+                },
+                electric: {
+                    DEFAULT: '#F7D02C',
+                    dark: colors.amber["500"]
+                },
+                'grass': {
+                    DEFAULT: '#7AC74C',
+                    dark: colors.lime["700"]
+                },
+                'ice': {
+                    DEFAULT: '#96D9D6',
+                    dark: colors.cyan["600"]
+                },
+                'fighting': {
+                    DEFAULT: '#C22E28',
+                    dark: colors.orange["700"]
+                },
+                'poison': {
+                    DEFAULT: '#A33EA1',
+                    dark: colors.pink["950"]
+                },
+                'ground': {
+                    DEFAULT: '#E2BF65',
+                    dark: colors.yellow["700"]
+                },
+                'flying': {
+                    DEFAULT: '#A98FF3',
+                    dark: colors.indigo["700"]
+                },
+                'psychic': {
+                    DEFAULT: '#F95587',
+                    dark: colors.pink["800"]
+                },
+                'bug': {
+                    DEFAULT: '#A6B91A',
+                    dark: colors.green["800"]
+                },
+                'rock': {
+                    DEFAULT: '#B6A136',
+                    dark: colors.yellow["800"]
+                },
+                'ghost': {
+                    DEFAULT: '#735797',
+                    dark: colors.purple["900"]
+                },
+                'dragon': {
+                    DEFAULT: '#6F35FC',
+                    dark: colors.violet["950"]
+                },
+                'dark': {
+                    DEFAULT: '#705746',
+                    dark: colors.amber["950"]
+                },
+                'steel': {
+                    DEFAULT: '#B7B7CE',
+                    dark: colors.slate["700"]
+                },
+                'fairy': {
+                    DEFAULT: '#D685AD',
+                    dark: colors.pink["700"]
+                }
             },
             backgroundImage: {
                 'icon-normal': 'url("@/assets/icons/normal.svg")',

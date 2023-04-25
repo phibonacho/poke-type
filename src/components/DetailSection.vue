@@ -3,8 +3,7 @@
     <h3 :id="sectionId" class="section__title">{{title}}</h3>
     <ul class="section__list">
       <li v-bind:key="index" v-for="({name, id}, index) in items" class="section__list__item">
-        <t-icon :name="id"/>
-        <span class="item__label">{{ name }}</span>
+        <t-icon :name="id" :label="name" small/>
       </li>
     </ul>
   </section>
@@ -39,7 +38,7 @@ export default {
 }
 
 .section__title {
-  @apply mb-2 text-white uppercase;
+  @apply mb-2 text-slate-800 uppercase;
 }
 
 .section__list {
@@ -47,7 +46,7 @@ export default {
 }
 
 .section__list__item {
-  @apply flex flex-row p-4 justify-center items-center bg-white rounded-md border
+  @apply rounded-md overflow-clip;
 }
 
 .item__label {

@@ -1,16 +1,19 @@
 <template>
-  <main class="main__container bg-gradient-to-t from-slate-800 via-slate-800" :class="`to-${selected}`"
-        ref="main_container">
-    <div class="w-full z-10 h-[300px] md:h-fit flex flex-col justify-center">
-      <DropDown label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona"
-                @dropdown-selected="onChange"></DropDown>
+  <main class="main__container" ref="main_container">
+    <div class="w-full z-10 h-fit flex flex-col justify-center pt-4">
+      <List label="Tipo attaccante" name="types" :options="options" placeholder="Seleziona"
+            @selected="onChange"></List>
     </div>
-    <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
-    <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
-    <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto" :items="noeffects"></detail-section>
+    <Modal :expanded="!!selected" @close="deselect">
+      <h2 v-if="modalTitle" class="uppercase text-2xl pb-2 border-b-2 mb-4" :class="`border-${selected} text-${selected}`">{{ modalTitle }}</h2>
+      <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
+      <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
+      <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto"
+                      :items="noeffects"></detail-section>
+    </Modal>
   </main>
   <footer class="footer__container">
-    <p class="text-sm text-center py-2 w-full text-white">v{{ version }}</p>
+    <p class="text-sm text-center py-2 w-full text-slate-800">v{{ version }}</p>
   </footer>
   <div role="alert"
        v-if="needRefresh"
@@ -25,7 +28,8 @@
 </template>
 
 <script>
-import DropDown from "@/components/Dropdown";
+import Modal from "@/components/Modal";
+import List from "@/components/List";
 import {getDocs, collection} from "firebase/firestore";
 import {db} from "@/firebase";
 import DetailSection from "@/components/DetailSection";
@@ -42,8 +46,9 @@ export default {
     return {offlineReady, needRefresh, updateServiceWorker, close};
   },
   components: {
-    DropDown,
-    DetailSection
+    Modal,
+    DetailSection,
+    List
   },
   data() {
     return {
@@ -80,6 +85,12 @@ export default {
       })
   },
   computed: {
+    modalTitle() {
+      if (this.selected && this.types[this.selected])
+        return this.types[this.selected].name;
+
+      return false;
+    },
     options() {
       return Array.from(Object.keys(this.types))
           .sort((a, b) => this.types[a].order - this.types[b].order)
@@ -130,6 +141,9 @@ export default {
     },
     onChange(type) {
       this.selected = type;
+    },
+    deselect() {
+      this.selected = undefined;
     }
   }
 }
@@ -145,20 +159,15 @@ export default {
   font-family: 'Inter', sans-serif;
 }
 
-body {
-  @apply bg-slate-800;
-}
-
 #app {
   @apply flex flex-col min-h-screen overflow-y-scroll;
 }
 
 .main__container {
-  @apply px-4 pb-8 md:px-0 md:pt-16 grow flex flex-col items-center w-full md:max-w-screen-sm mx-auto;
+  @apply px-4 md:px-8 pb-8 md:pt-16 grow flex flex-col items-center w-full md:max-w-screen-sm mx-auto;
 }
 
 .footer__container {
-  @apply bg-slate-800;
 }
 
 </style>

@@ -1,120 +1,185 @@
 <template>
-  <span class="icon" :class="classes" aria-hidden="true"></span>
+  <div class="tile" :class="{[name]: name, 'tile--small': small}">
+    <div role="presentation" class="decoration"/>
+    <p class="label">{{ label }}</p>
+  </div>
 </template>
 
 <script>
 
 export default {
-  name: 't-icon',
+  name: 'Tile',
   props: {
+    label: String,
     name: String,
-    size: Number
+    small: Boolean
   },
-  computed: {
-    classes() {
-      return [
-          this.size ? `icon-${this.size}x` : null,
-          this.name
-      ].join(' ');
-    }
-  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.icon {
-  @apply border-4 w-4 h-4 rounded-full inline-block p-2;
-  background-size: 80%;
-  background-position: center center;
-  background-repeat: no-repeat;
+
+.tile {
+  @apply relative pl-4 pr-8 py-2 bg-gradient-to-br w-full overflow-clip flex flex-col-reverse;
 }
 
-.icon-2x {
-  @apply w-8 h-8;
+.decoration {
+  @apply absolute -inset-y-2 md:-inset-y-4 -right-2 md:-right-8 aspect-square bg-contain bg-center bg-no-repeat opacity-20;
 }
 
-.icon-3x {
-  @apply w-12 h-12;
+.tile--small .decoration {
+  @apply inset-y-3 right-3 opacity-100;
 }
 
-.icon-4x {
-  @apply w-16 h-16;
+.label {
+  @apply text-xl font-semibold text-white pt-4 md:pt-10 z-10 capitalize text-left;
 }
 
-.icon-5x {
-  @apply w-20 h-20;
+.tile--small .label {
+  @apply pt-1 font-normal;
 }
-
 .normal {
-  @apply border-normal bg-normal bg-icon-normal;
+  @apply from-normal to-normal-dark;
 }
 
 .fire {
-  @apply border-fire bg-fire bg-icon-fire;
+  @apply from-fire to-fire-dark;
 }
 
 .water {
-  @apply border-water bg-water bg-icon-water;
+  @apply from-water to-water-dark;
 }
 
 .electric {
-  @apply border-electric bg-electric bg-icon-electric;
+  @apply from-electric to-electric-dark;
 }
 
 .grass {
-  @apply border-grass bg-grass bg-icon-grass;
+  @apply from-grass to-grass-dark;
 }
 
 .ice {
-  @apply border-ice bg-ice bg-icon-ice;
+  @apply from-ice to-ice-dark;
 }
 
 .fighting {
-  @apply border-fighting border-fighting bg-fighting bg-icon-fighting;
+  @apply from-fighting to-fighting-dark;
 }
 
 .poison {
-  @apply border-poison bg-poison bg-icon-poison;
+  @apply from-poison to-poison-dark;
 }
 
 .ground {
-  @apply border-ground bg-ground bg-icon-ground;
+  @apply from-ground to-ground-dark;
 }
 
 .flying {
-  @apply border-flying bg-flying bg-icon-flying;
+  @apply from-flying to-flying-dark;
 }
 
 .psychic {
-  @apply border-psychic bg-psychic bg-icon-psychic;
+  @apply from-psychic to-psychic-dark;
 }
 
 .bug {
-  @apply border-bug bg-bug bg-icon-bug;
+  @apply from-bug to-bug-dark;
 }
 
 .rock {
-  @apply border-rock bg-rock bg-icon-rock;
+  @apply from-rock to-rock-dark;
 }
 
 .ghost {
-  @apply border-ghost bg-ghost bg-icon-ghost;
+  @apply from-ghost to-ghost-dark;
 }
 
 .dragon {
-  @apply border-dragon bg-dragon bg-icon-dragon;
+  @apply from-dragon to-dragon-dark;
 }
 
 .dark {
-  @apply border-dark bg-dark bg-icon-dark;
+  @apply from-dark to-dark-dark;
 }
 
 .steel {
-  @apply border-steel bg-steel bg-icon-steel;
+  @apply from-steel to-steel-dark;
 }
 
 .fairy {
-  @apply border-fairy bg-fairy bg-icon-fairy;
+  @apply from-fairy to-fairy-dark;
+}
+
+.normal .decoration{
+  @apply bg-icon-normal;
+}
+
+.fire .decoration {
+  @apply bg-icon-fire;
+}
+
+.water .decoration {
+  @apply bg-icon-water;
+}
+
+.electric .decoration {
+  @apply bg-icon-electric;
+}
+
+.grass .decoration {
+  @apply bg-icon-grass;
+}
+
+.ice .decoration {
+  @apply bg-icon-ice;
+}
+
+.fighting .decoration {
+  @apply bg-icon-fighting;
+}
+
+.poison .decoration {
+  @apply bg-icon-poison;
+}
+
+.ground .decoration {
+  @apply bg-icon-ground;
+}
+
+.flying .decoration {
+  @apply bg-icon-flying;
+}
+
+.psychic .decoration {
+  @apply bg-icon-psychic;
+}
+
+.bug .decoration {
+  @apply bg-icon-bug;
+}
+
+.rock .decoration {
+  @apply bg-icon-rock;
+}
+
+.ghost .decoration {
+  @apply bg-icon-ghost;
+}
+
+.dragon .decoration {
+  @apply bg-icon-dragon;
+}
+
+.dark .decoration {
+  @apply bg-icon-dark;
+}
+
+.steel .decoration {
+  @apply bg-icon-steel;
+}
+
+.fairy .decoration {
+  @apply bg-icon-fairy;
 }
 </style>
