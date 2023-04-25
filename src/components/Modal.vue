@@ -4,13 +4,12 @@
       <div
           v-show="expanded"
           class="modal__container"
-          ref="modal"
           role="dialog"
           tabindex="-1"
           :id="name + '_list'"
-          @keyup.esc="closeMenu" @blur="closeMenu">
+          @keyup.esc="closeModal" @blur="closeModal">
         <div class="modal__header">
-
+          <button ref="buttonRef" class="modal__close" @click="closeModal">&times;<span class="sr-only">chiudi</span></button>
         </div>
         <div class="modal__body">
           <slot/>
@@ -48,7 +47,7 @@ export default {
   watch: {
     expanded(isExpanded) {
       if (isExpanded) {
-        nextTick(() => this.$refs.modal.focus());
+        nextTick(() => this.$refs.buttonRef.focus());
       }
     }
   },
@@ -56,9 +55,9 @@ export default {
   methods: {
     select(index) {
       this.selectedIndex = index;
-      this.closeMenu();
+      this.closeModal();
     },
-    closeMenu() {
+    closeModal() {
       this.$emit("close");
     },
     focusLost() {
@@ -73,6 +72,15 @@ export default {
 
 .modal__wrapper {
   @apply fixed z-50 inset-0;
+}
+
+.modal__header {
+  @apply flex flex-row-reverse;
+}
+
+.modal__close {
+  @apply text-3xl rounded-full bg-slate-200 w-8 h-8 flex items-center justify-center pb-1.5;
+  line-height: 1.875rem;
 }
 
 .modal__container {

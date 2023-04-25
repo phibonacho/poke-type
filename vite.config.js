@@ -20,7 +20,7 @@ export default defineConfig({
     manifest: {
       name: "Pokemon Type Checker",
       short_name: "PTC",
-      theme_color: "#1e293b",
+      theme_color: "#FFFFFF",
       start_url: "/",
       display: "standalone",
       background_color: "#FFF",

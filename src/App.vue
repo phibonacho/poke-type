@@ -5,7 +5,7 @@
             @selected="onChange"></List>
     </div>
     <Modal :expanded="!!selected" @close="deselect">
-      <h2 v-if="modalTitle" class="uppercase text-2xl pb-2 border-b-2 mb-4" :class="`border-${selected} text-${selected}`">{{ modalTitle }}</h2>
+      <h2 v-if="modalTitle" class="uppercase text-2xl pb-2 border-b-2 mb-4 font-bold" :class="`border-${selected} text-${selected}`">{{ modalTitle }}</h2>
       <detail-section v-if="selected && effects.length > 0" title="Super efficace" :items="effects"></detail-section>
       <detail-section v-if="selected && uneffects.length > 0" title="Poco efficace" :items="uneffects"></detail-section>
       <detail-section v-if="selected && noeffects.length > 0" title="Nessun effetto"
@@ -16,11 +16,11 @@
     <p class="text-sm text-center py-2 w-full text-slate-800">v{{ version }}</p>
   </footer>
   <div role="alert"
-       v-if="needRefresh"
-       class="fixed inset-x-2 bottom-2 bg-blue-200 px-4 py-3 text-xs text-blue-600 border border-blue-400 rounded-md">
+       v-if="true"
+       class="fixed inset-x-2 bottom-2 bg-blue-200 px-4 py-3 text-blue-600 border border-blue-400 rounded-md z-50">
     <div class="flex flex-row justify-around">
       <p>
-        Una nuova versione è disponibile!
+        Nuova versione disponibile
       </p>
       <button class="font-semibold" @click="updateServiceWorker()">INSTALLA</button>
     </div>
