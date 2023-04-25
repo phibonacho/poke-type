@@ -16,7 +16,7 @@
     <p class="text-sm text-center py-2 w-full text-slate-800">v{{ version }}</p>
   </footer>
   <div role="alert"
-       v-if="true"
+       v-if="needRefresh"
        class="fixed inset-x-2 bottom-2 bg-blue-200 px-4 py-3 text-blue-600 border border-blue-400 rounded-md z-50">
     <div class="flex flex-row justify-around">
       <p>
@@ -153,14 +153,9 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 * {
   font-family: 'Inter', sans-serif;
-}
-
-#app {
-  @apply flex flex-col min-h-screen overflow-y-scroll;
 }
 
 .main__container {
